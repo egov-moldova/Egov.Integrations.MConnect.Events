@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Authors>egov.md</Authors>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Description>This package contains services for easy integration of producers and consumers with MConnect Events.</Description>
+    <PackageId>Egov.Integrations.MConnect.Events</PackageId>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Egov.Extensions.Configuration" Version="10.0.4" />
+	</ItemGroup>
+
+</Project>
