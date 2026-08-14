@@ -23,11 +23,11 @@ internal sealed class SingletonHandlerInvoker<THandler> : HandlerInvoker
 internal sealed class ScopedHandlerInvoker<THandler> : HandlerInvoker
     where THandler : class, IHandleCloudEvents
 {
-    public override Task InvokeHandler(IServiceProvider provider, CloudEventConsumerContext context, CancellationToken cancellationToken)
+    public override async Task InvokeHandler(IServiceProvider provider, CloudEventConsumerContext context, CancellationToken cancellationToken)
     {
         using var scope = provider.CreateScope();
         var handler = scope.ServiceProvider.GetRequiredService<THandler>();
-        return handler.HandleAsync(context, cancellationToken);
+        await handler.HandleAsync(context, cancellationToken);
     }
 }
 
@@ -46,11 +46,11 @@ internal sealed class SingletonBinaryHandlerInvoker<THandler> : HandlerInvoker
 internal sealed class ScopedBinaryHandlerInvoker<THandler> : HandlerInvoker
     where THandler : class, IHandleCloudEvents<byte[]?>
 {
-    public override Task InvokeHandler(IServiceProvider provider, CloudEventConsumerContext context, CancellationToken cancellationToken)
+    public override async Task InvokeHandler(IServiceProvider provider, CloudEventConsumerContext context, CancellationToken cancellationToken)
     {
         using var scope = provider.CreateScope();
         var handler = scope.ServiceProvider.GetRequiredService<THandler>();
-        return handler.HandleAsync(context, context.Event.DeserializeBinaryData(), cancellationToken);
+        await handler.HandleAsync(context, context.Event.DeserializeBinaryData(), cancellationToken);
     }
 }
 
