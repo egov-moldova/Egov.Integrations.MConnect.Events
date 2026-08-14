@@ -54,6 +54,10 @@ public class MConnectEventsConsumerOptions
     /// </summary>
     public string? Group { get; set; }
 
+    /// <summary>
+    /// Gets the URI for connecting to the MConnect Events service with the specified options.
+    /// </summary>
+    /// <returns>The URI for connecting to the MConnect Events service.</returns>
     public Uri GetConnectUri()
     {
         var query = new QueryBuilder();

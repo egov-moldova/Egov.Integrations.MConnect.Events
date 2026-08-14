@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Egov.Integrations.MConnect.Events;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography;
 using Egov.Extensions.Configuration;
@@ -14,8 +13,7 @@ public class ServiceCollectionExtensionsTests
     {
         using var rsa = RSA.Create(2048);
         var request = new CertificateRequest("cn=test", rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-        var cert = request.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddYears(1));
-        return new X509Certificate2(cert.Export(X509ContentType.Pfx));
+        return request.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddYears(1));
     }
 
     [Fact]
