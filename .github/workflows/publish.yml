@@ -7,6 +7,7 @@ env:
   DOTNET_VERSION: '10.0.x'
   PROJECT_PATH: 'src/Egov.Integrations.MConnect.Events/Egov.Integrations.MConnect.Events.csproj'
   SOLUTION_PATH: 'src/Egov.Integrations.MConnect.Events.sln'
+  TEST_PROJECT: 'src/Egov.Integrations.MConnect.Events.Tests/Egov.Integrations.MConnect.Events.Tests.csproj'
 
 jobs:
   build:
@@ -28,16 +29,19 @@ jobs:
       - name: Build
         run: dotnet build ${{ env.SOLUTION_PATH }} --configuration Release --no-restore
 
+      # xunit.v3 v4 builds a self-executing Microsoft.Testing.Platform app and no longer
+      # supports the VSTest-based `dotnet test` on the .NET 10 SDK. Run the test app
+      # directly - it reports the same results and still exits non-zero on failure.
       - name: Test
-        run: dotnet test ${{ env.SOLUTION_PATH }} --configuration Release --no-build --verbosity normal
+        run: dotnet run --project ${{ env.TEST_PROJECT }} --configuration Release --no-build
 
   publish:
     name: Publish NuGet
     needs: build
-    # Run on: manual trigger OR pushes to master OR version tags
+    # Publish ONLY on an explicit manual run or a version tag.
+    # Deliberately NOT gated on a branch: pushing code must never release a package.
     if: |
-      github.event_name == 'workflow_dispatch' || 
-      github.ref == 'refs/heads/master' || 
+      github.event_name == 'workflow_dispatch' ||
       startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
