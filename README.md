@@ -168,6 +168,10 @@ dotnet test
 
 ---
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for what changed in each release.
+
 ## Contributing
 
 Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to get started.
